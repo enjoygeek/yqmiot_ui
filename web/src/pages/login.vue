@@ -4,9 +4,9 @@
         <div class="marg">{{msg}}</div>
         <img src="../assets/yqm2.png" alt="">
         <div class="marg"></div>
-        <mu-auto-complete hintText="请随便输入用户名" :dataSource="dataSource" style="color:#fff" />
-        <mu-auto-complete hintText="请随便输入密码" :dataSource="dataSource" style="color:#fff" />
-         <mu-raised-button label="login" class="demo-raised-button" id="buton" secondary/>
+        <mu-text-field label="请输入用户名" hintText="请输入用户名" v-model="username" labelFloat/><br/>
+        <mu-text-field label="请输入密码" hintText="请输入密码" type="password" v-model="password" labelFloat/>
+        <mu-raised-button label="login" class="demo-raised-button" @click="loginHander" id="buton" secondary/>
     </div>
  </div>
 </template>
@@ -15,9 +15,16 @@ export default {
   name: 'login',
   data () {
     return {
+      username: '',
+      password: '',
       msg: '月球猫互联登录界面',
       dataSource: [],
     }
+  },
+  methods: {
+      loginHander: function(){
+          console.log(this.username,this.password);
+      }
   }
 }
 </script>
