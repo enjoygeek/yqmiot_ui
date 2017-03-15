@@ -6,7 +6,7 @@
         <div class="marg"></div>
         <mu-text-field label="请输入用户名" hintText="请输入用户名" v-model="username" labelFloat/><br/>
         <mu-text-field label="请输入密码" hintText="请输入密码" type="password" v-model="password" labelFloat/>
-        <mu-raised-button label="login" class="demo-raised-button" @click="loginHander" id="buton" secondary/>
+        <mu-raised-button label="登录" class="demo-raised-button" @click="loginHander" id="buton" secondary/>
     </div>
  </div>
 </template>

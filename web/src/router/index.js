@@ -10,6 +10,32 @@ export default new Router({
       path: '/',
       name: 'index',
       component: index,
+      children:[
+        {
+          path: '/',
+          redirect: '/list'
+        },
+        {
+          path: '/list',
+          name: 'list',
+          component: require('../components/list'),
+        },
+         {
+          path: '/music',
+          name: 'music',
+          component: require('../components/music'),
+        },
+         {
+          path: '/books',
+          name: 'books',
+          component: require('../components/books'),
+        },
+         {
+          path: '/pictures',
+          name: 'pictures',
+          component: require('../components/pictures'),
+        }
+      ]
     },
     {
       path: '/login',
