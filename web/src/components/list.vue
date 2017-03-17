@@ -1,8 +1,8 @@
 <template>
   <mu-list :value="value" @change="handleChange">
-    <mu-list-item :value="1" title="Mike Li">
+    <mu-list-item :value="1" title="月球猫开关">
       <mu-avatar :src="avatar1" slot="leftAvatar"/>
-      <mu-icon value="chat_bubble" slot="right"/>
+      <mu-switch v-model="events"  slot="right"/>
     </mu-list-item>
     <mu-list-item :value="2" title="Maco Mai">
       <mu-avatar :src="avatar2" slot="leftAvatar"/>
@@ -35,11 +35,17 @@ export default {
       avatar2,
       avatar3,
       value: 1,
+      events:false,
     }
   },
   methods: {
     handleChange (val) {
       this.value = val
+    }
+  },
+  watch:{
+    events:function(newval,oldval){
+      console.log(newval,"oldval"+oldval)
     }
   }
 }

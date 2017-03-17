@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import myron from '../assets/yqm.png'
+import myron from '../assets/yqm.png';
 export default {
   name: 'index',
   data () {
