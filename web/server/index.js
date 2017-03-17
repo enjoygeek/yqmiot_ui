@@ -8,7 +8,7 @@ app.get('/', function(req, res){
 	res.send('<h1>Welcome Realtime Server</h1>');
 });
 io.on('connection',function(socket){
-	console.log('主人来了');
+	// console.log('主人来了');
 });
 http.listen(3000, function(){
 	console.log('listening on *:3000');
