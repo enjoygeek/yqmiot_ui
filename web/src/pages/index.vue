@@ -20,8 +20,12 @@
 </template>
 <script>
 import myron from '../assets/yqm.png';
+import IOT from '../api/client'
 export default {
   name: 'index',
+  created(){
+    IOT.init();
+  },
   data () {
     return {
       myron,

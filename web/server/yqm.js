@@ -31,7 +31,7 @@ function IOT(account,nodeId){
             "action": "message",
             "nodeid": `${that.nodeId}`,
         };
-        that.yqm.publish(`yqmiot/${that.account}/0/#`,that.encode(load));
+        // that.yqm.publish(`yqmiot/${that.account}/0/#`,that.encode(load));
     });
 }
 
