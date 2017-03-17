@@ -9,6 +9,9 @@ app.get('/', function(req, res){
 });
 io.on('connection',function(socket){
 	// console.log('主人来了');
+	socket.on('switch',function(message){
+		console.log(message);
+	})
 });
 http.listen(3000, function(){
 	console.log('listening on *:3000');
