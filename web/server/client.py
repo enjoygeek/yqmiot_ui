@@ -202,7 +202,7 @@ if __name__ == "__main__":
         raise
     #test.mosquitto.org
     #iot.eclipse.org
-    client = MyClient(("test.mosquitto.org", 1883), accountid, nodeid)
+    client = MyClient(("test.mosquitto.org",1883), accountid, nodeid)
 
     @client.route("ping")
     def handlePingAction(client, action):

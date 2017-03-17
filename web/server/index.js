@@ -1,11 +1,9 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var mqtt = require('mqtt');
-var yqm = mqtt.connect('ws://test.mosquitto.org:8080');
-yqm.on('connect',function(){
-	yqm.publish('yqmiot/2/2/5/ping');
-});
+var IOT = require('./yqm.js');
+var client = new IOT.IOT(2,5);
+console.log(client.ping());
 app.get('/', function(req, res){
 	res.send('<h1>Welcome Realtime Server</h1>');
 });
