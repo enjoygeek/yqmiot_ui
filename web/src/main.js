@@ -6,6 +6,7 @@ import router from './router'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import './assets/theme.less'
+
 Vue.config.productionTip = false
 Vue.use(MuseUI);
 const FastClick = require('fastclick')
