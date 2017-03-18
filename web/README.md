@@ -1,21 +1,23 @@
-# web
+# 开发日志
 
-> A Vue.js project
+> 月球猫互联控制端
 
-## Build Setup
+## 2017.3.17
 
 ``` bash
-# install dependencies
-npm install
+# mtqq协议与socket共存的问题
+## 解决方式一将所有的mqtt操作放到这里，但是会导致新的问题的产生。用户每登录一次就会产生一次新的监听。随着用户登录次数的增加，最后返回的数据将会给服务器和客户端处理 带来诸多的问题。所这将是一个不宜采取的方式。
+io.sockets.on("connetion",function(socket){
+    socket.on("publish",function(topic,message){
+        mqtt.publish(topic,message);
+    });
+    socket.on("subcribe",function(topic){
+        mqtt.subcribe(topic);
+    })
+    mqtt.on("message",function(topic,payload){
+        socket.emit(topic,payload);
+    })
+})
 
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

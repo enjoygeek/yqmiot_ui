@@ -20,7 +20,6 @@ process.argv.forEach(function (val, index, array) {
 
 //Connect to Broker
 mqttclient.on('connect', function() {
-  console.log("mqttconnect");
   DEBUG_LOG('Server Started!');
 });
 
