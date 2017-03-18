@@ -1,25 +1,11 @@
 <template>
-  <mu-list :value="value" @change="handleChange">
-    <mu-list-item :value="1" title="月球猫开关">
-      <mu-avatar :src="avatar1" slot="leftAvatar"/>
-      <mu-switch v-model="events"  slot="right"/>
-    </mu-list-item>
-    <mu-list-item :value="2" title="Maco Mai">
-      <mu-avatar :src="avatar2" slot="leftAvatar"/>
-      <mu-icon value="chat_bubble" slot="right"/>
-    </mu-list-item>
-    <mu-list-item :value="3" title="Alex Qin">
-      <mu-avatar :src="avatar3" slot="leftAvatar"/>
-      <mu-icon value="chat_bubble" slot="right"/>
-    </mu-list-item>
-    <mu-list-item :value="4" title="Allen Qun">
-      <mu-avatar :src="avatar1" slot="leftAvatar"/>
-      <mu-icon value="chat_bubble" slot="right"/>
-    </mu-list-item>
-    <mu-list-item :value="5" title="Myron Liu">
-      <mu-avatar :src="avatar2" slot="leftAvatar"/>
-      <mu-icon value="chat_bubble" slot="right"/>
-    </mu-list-item>
+  <mu-list :value="value" @change="handleChange" >
+  <mu-sub-header>开关类</mu-sub-header>
+    <div v-for="(item, index) in $store.state.homeSwitch.homeSwitch">
+      <mu-list-item :value="item.receiver+'/'+index" :title="item.name">
+        <mu-avatar :src="avatar1" slot="leftAvatar"/>
+      </mu-list-item>
+    </div>
   </mu-list>
 </template>
 
@@ -36,12 +22,14 @@ export default {
       avatar3,
       value: 1,
       events:false,
-      data: {},
+      collect: {},
     }
   },
   methods: {
     handleChange (val) {
-      this.value = val
+      this.value = val.split('/')[0];
+      let index = val.split('/')[1];
+      this.$router.push({ name: 'message', params: { receiver: this.value,index: index }})
     }
   },
   watch:{
@@ -50,7 +38,7 @@ export default {
         "val": newval,
         "receiver":27888
       }
-      this.$store.dispatch('toggle',message);
+      // this.$store.dispatch('toggle',message);
     },
   },
 }

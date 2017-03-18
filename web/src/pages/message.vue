@@ -4,41 +4,49 @@
       <mu-appbar title="月球猫互联" id="shadow">
         <mu-avatar slot="left" :src="myron"/>
       </mu-appbar>
-
       <div id="list">
-        <router-view></router-view>
+         <mu-list>
+          <mu-list-item :value="$store.state.homeSwitch.homeSwitch[this.$route.params.index].receiver" :title="$store.state.homeSwitch.homeSwitch[this.$route.params.index].name">
+            <mu-avatar :src="avatar1" slot="leftAvatar"/>
+            <mu-switch v-model="status" slot="right"/>
+          </mu-list-item>
+        </mu-list>
       </div>
-
-      <mu-bottom-nav :value="bottomNav" shift @change="handleChange" id="footer">
-        <mu-bottom-nav-item value="list" title="设备" icon="ondemand_video"/>
-        <mu-bottom-nav-item value="music" title="设置" icon="music_note"/>
-      </mu-bottom-nav>
     </div>
   </div>
 </template>
 <script>
 import myron from '../assets/yqm.png';
+import avatar1 from '../assets/1.jpg';
 // import IOT from '../api/client'
 export default {
   name: 'index',
   created(){
-    console.log(this.$store.state.homeSwitch.homeSwitch)
+    
   },
   data () {
     return {
       myron,
-      bottomNav: 'list',
-      events: false,
+      status: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].val,
       topic: null,
-      message: null,
+      name: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].name,
+      receiver:this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].receiver,
+      avatar1,
     }
   },
   methods: {
-    handleChange (val) {
-      this.bottomNav = val;
-      this.$router.push(`/${val}`);
-    },
+    
   },
+  watch:{
+    status:function(newval,oldval){
+       let message = {
+        "val": newval,
+        "receiver": this.receiver,
+        "name": this.name
+      }
+      this.$store.dispatch('toggle',message);
+    }
+  }
 }
 </script>
 

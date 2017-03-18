@@ -8,6 +8,10 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: '/login',
+    },
+    {
+      path: '/index',
       name: 'index',
       component: index,
       children:[
@@ -24,16 +28,6 @@ export default new Router({
           path: '/music',
           name: 'music',
           component: require('../components/music'),
-        },
-         {
-          path: '/books',
-          name: 'books',
-          component: require('../components/books'),
-        },
-         {
-          path: '/pictures',
-          name: 'pictures',
-          component: require('../components/pictures'),
         }
       ]
     },
@@ -41,6 +35,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: require('../pages/login'),
+    },
+    {
+      path: '/message/:receiver/:index',
+      name: 'message',
+      component: require('../pages/message'),
     }
   ]
 })

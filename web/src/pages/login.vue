@@ -24,8 +24,8 @@ export default {
   },
   methods: {
       loginHander: function(){
-          if(this.username && this.password){
-              this.$router.push('/');
+          if(this.username == this.$store.state.username && this.password == this.$store.state.password){
+              this.$router.push('/index');
           }
       }
   }

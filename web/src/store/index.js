@@ -11,13 +11,17 @@ VUE.use(Vuex);
 IOT.init(1, 0);
 IOT.socket.on("connect",function(){
     IOT.socket.emit('subscribe',{topic:"yqmiot/#"});
-    IOT.socket.emit("publish",{topic:"yqmiot/"+IOT.account+"/2/"+IOT.nodeId+"/call",message:{}})
+    IOT.socket.emit("publish",{topic:"yqmiot/"+IOT.account+"/2/"+IOT.nodeId+"/call",message:{"name":"property"}})
 });
 
 const plugin = createWebSocketPlugin(IOT.socket);
-
+const state = {
+    username: "kira",
+    password: '130608',
+}
 const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
+    state,
     modules: {
         homeSwitch,
         event,
@@ -26,6 +30,6 @@ export default new Vuex.Store({
         ack
     },
     strict: debug,
-    plugins: [plugin],
+    // plugins: [plugin],
 })
 

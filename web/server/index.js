@@ -71,7 +71,7 @@ io.sockets.on('connection', function (socket) {
 
         //Publish MQTT message
         try {
-            mqttclient.publish(data.topic, data.message);
+            mqttclient.publish(data.topic, JSON.stringify(data.message));
         }
         catch(err) {
             DEBUG_LOG('ERROR: ' + err, true);
