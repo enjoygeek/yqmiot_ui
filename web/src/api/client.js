@@ -1,6 +1,6 @@
 import io from 'socket.io-client'
 const IOT = {
-    host:(window.location.hostname) ? "http://" + window.location.hostname + ":3000" : "https://www.gebilaowu.cn:8080",
+    host:"http://www.gebilaowu.cn:3000",
     account: null,
     nodeId: null,
     socket: null,
