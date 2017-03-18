@@ -27,7 +27,8 @@ export default {
     let that = this;
     IOT.init(2,5);
     IOT.socket.on("connect",function(){
-      IOT.socket.emit('subscribe',{topic:"yqmiot/2/#"});
+      // IOT.socket.emit('subscribe',{topic:"yqmiot/2/#"});
+      IOT.socket.emit('subscribe',{topic:"yqmiot/#"});
     });
     IOT.socket.on('mqtt',function(message){
       that.message = message;
