@@ -2,8 +2,8 @@
 
 > 月球猫互联控制端
 
-## 2017.3.17
-### mtqq协议与socket共存的问题
+# 2017.3.17
+## mtqq协议与socket共存的问题
 ``` bash
 ## 解决方式一将所有的mqtt操作放到这里，但是会导致新的问题的产生。用户每登录一次就会产生一次新的监听。随着用户登录次数的增加，最后返回的数据将会给服务器和客户端处理 带来诸多的问题。所这将是一个不宜采取的方式。
 io.sockets.on("connetion",function(socket){
@@ -98,3 +98,51 @@ mqttclient.on('message', function(topic, payload) {
 ```
 
 # 2017.3.18
+## 加入vuex来解决数据传递的问题
+```bash
+### 问题提出
+因为我之前的解决方式，为以下
+在index.vue里当
+created(){
+    let that = this;
+    IOT.init(2,5);
+    IOT.socket.on("connect",function(){
+        // IOT.socket.emit('subscribe',{topic:"yqmiot/2/#"});
+        IOT.socket.emit('subscribe',{topic:"yqmiot/#"});
+    });
+    IOT.socket.on('mqtt',function(message){
+        that.message = message;
+        console.log(that.message);
+    });
+}
+
+很显然这种方式造成了数据不能和多个组件共享的结果。我提出的解决方式就是加入vuex进行状态管理。
+
+## vuex设计
+
+```
+
+## nginx配置socket转发
+```bash
+### nginx配置文件位置
+/etc/nginx/
+###配置修改
+cd sites-available
+nano default
+//配置为
+location /socket.io/ {
+    //此处改为 socket.io 后端的 ip 和端口即可
+    proxy_pass http://127.0.0.1:3000;
+
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_http_version 1.1;
+}
+出现新的问题：http和https不能共存。所以我暂且搁置这个问题。我已经把服务端的ssl关了。现在网站是http的形式。
+
+```
+## 服务器测试通过
+
+```bash
+服务器api告一段落。
+```
