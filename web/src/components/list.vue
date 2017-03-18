@@ -30,9 +30,6 @@ import avatar3 from '../assets/3.jpg';
 import IOT from '../api/client'
 export default {
   name: "list",
-  created(){
-    IOT.init();
-  },
   data(){
     return {
       avatar1,
@@ -40,6 +37,7 @@ export default {
       avatar3,
       value: 1,
       events:false,
+      data: {},
     }
   },
   methods: {
@@ -51,7 +49,7 @@ export default {
     events:function(newval,oldval){
       console.log(newval,"oldval"+oldval)
       IOT.socket.emit('switch',{val:newval});
-    }
-  }
+    },
+  },
 }
 </script>

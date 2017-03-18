@@ -24,13 +24,23 @@ import IOT from '../api/client'
 export default {
   name: 'index',
   created(){
-    IOT.init();
+    let that = this;
+    IOT.init(2,5);
+    IOT.socket.on("connect",function(){
+      IOT.socket.emit('subscribe',{topic:"yqmiot/2/#"});
+    });
+    IOT.socket.on('mqtt',function(message){
+      that.message = message;
+      console.log(that.message);
+    });
   },
   data () {
     return {
       myron,
       bottomNav: 'list',
       events: false,
+      topic: null,
+      message: null,
     }
   },
   methods: {
