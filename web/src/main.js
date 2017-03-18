@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import MuseUI from 'muse-ui'
+import store from './store/index'
 import 'muse-ui/dist/muse-ui.css'
 import './assets/theme.less'
 
@@ -15,6 +16,7 @@ FastClick.attach(document.body)
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
