@@ -6,6 +6,21 @@ const IOT = {
     socket: null,
     decode: null,
     encode: null,
+    flag: false,    
+    deteckToogle: function ($store,status) {
+        if (!IOT.flag) {
+            console.log("超时");
+            $store.commit('timeout',status)
+        } else {
+            IOT.flag = !IOT.flag;
+        }
+    },
+    dispatch: function ($store,actionname,message,status,callback) {
+        $store.dispatch(actionname, message);
+        setTimeout(function () {
+            callback($store,status);
+        }, 10000)
+    },
     decode: function (payload) {
         let load = payload.toString();
         if (load) {
@@ -27,6 +42,10 @@ const IOT = {
         }
         return r;
     },
+    sendCallToggle: function (IOT, message) {
+        IOT.socket.emit("publish", { topic: `yqmiot/${IOT.account}/27888/${IOT.nodeId}/call`, message: { "action": "yqmiot.event.toggle", "sender": IOT.nodeId, "name": message.name, "receiver": message.receiver, "value": message.val } });
+    },
+
     buildAction: function (action, receiver, message) {
         let topic = "yqmiot/" + this.account + "/" + receiver + "/" + this.nodeId + "/" + action;
 
