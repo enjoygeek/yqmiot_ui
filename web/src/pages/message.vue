@@ -13,7 +13,7 @@
             </div>
           </mu-list-item>
         </mu-list>
-        <mu-toast v-if="toast" message="超时" @close="hideToast"/>
+        <mu-toast v-if="toast" :message="warnTittle" @close="hideToast"/>
       </div>
     </div>
   </div>
@@ -26,12 +26,13 @@ import mySwitch from '../components/switch';
 export default {
   name: 'index',
   created(){
-    
+    IOT.el = this;
   },
   data () {
     return {
       myron,
       toggle: true,
+      warnTittle: "",
       topic: null,
       status: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].val,
       name: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].name,
