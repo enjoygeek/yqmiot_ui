@@ -7,6 +7,7 @@
 
       <div id="list">
         <router-view></router-view>
+        <mu-toast v-if="toast" :message="warnTittle" @close="hideToast"/>
       </div>
 
       <mu-bottom-nav :value="bottomNav" shift @change="handleChange" id="footer">
@@ -18,11 +19,11 @@
 </template>
 <script>
 import myron from '../assets/yqm.png';
-// import IOT from '../api/client'
+import IOT from '../api/client'
 export default {
   name: 'index',
   created(){
-    console.log(this.$store.state.homeSwitch.homeSwitch)
+    IOT.el = this;
   },
   data () {
     return {
@@ -31,6 +32,8 @@ export default {
       events: false,
       topic: null,
       message: null,
+      toast: false,
+      warnTittle: "",
     }
   },
   methods: {
@@ -38,6 +41,10 @@ export default {
       this.bottomNav = val;
       this.$router.push(`/${val}`);
     },
+    hideToast () {
+      this.toast = false
+      if (this.toastTimer) clearTimeout(this.toastTimer)
+    }
   },
 }
 </script>
