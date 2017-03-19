@@ -15,7 +15,17 @@ const actions = {
 }
 const mutations = {
     ack({ commit }, message){
-        console.log(message);
+       let types = IOT.decodeEvent(message);
+        console.log(types);
+        switch (types.eventType) {
+            case "toggle":
+                    IOT.flag = true;
+                    clearTimeout(IOT.outTimer);
+                    IOT.toast(IOT.el,types.sender+"已执行");
+                break;
+            default:
+                break;
+        }
     }
 }
 
