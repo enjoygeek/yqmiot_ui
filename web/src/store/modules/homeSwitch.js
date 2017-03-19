@@ -13,8 +13,6 @@ const state = {
             val: true,
         }
     ],
-    timeout: false,
-    timeout1: true,
 }
 
 const getters = {
@@ -31,9 +29,7 @@ const mutations = {
     },
     timeout({commit},that){
         that.status = !that.status;
-        that.toast = true
-        if (that.toastTimer) clearTimeout(that.toastTimer)
-        that.toastTimer = setTimeout(() => { that.toast = false }, 2000)       
+        IOT.toast(that,"请求超时");     
     }
 }
 
