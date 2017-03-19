@@ -1,0 +1,4 @@
+{topic: "yqmiot/1/0/1000/event", payload: "{"action": "yqmiot.event.online", "sender": "1000", "name": "event", "receiver": 0}"}
+ yqmiot/1/5/1000/ack {"action": null, "sender": "1000", "name": "ack", "receiver": "5
+RECEIVED: yqmiot/1/0/1000/event {"action": "yqmiot.event.online", "sender": "1000", "name": "event", "receiver": 0}
+
