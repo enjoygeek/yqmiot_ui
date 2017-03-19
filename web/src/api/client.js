@@ -6,23 +6,42 @@ const IOT = {
     socket: null,
     decode: null,
     encode: null,
-    flag: false,    
-    deteckToogle: function ($store,status) {
+    flag: false,
+    el: 　null,
+    outTimer: null,
+    deteckToogle: function ($store, status) {
         if (!IOT.flag) {
             console.log("超时");
-            $store.commit('timeout',status)
+            $store.commit('timeout', status)
         } else {
             IOT.flag = !IOT.flag;
         }
     },
-    dispatch: function ($store,actionname,message,status,callback) {
+    decodeEvent: function (message) {
+        console.log(message);
+        let payload = this.decode(message.payload);
+        let action = payload.action;
+        let sender = payload.sender;
+        let receiver = payload.receiver;
+        let eventType = "";
+        if (action) {
+            eventType = action.split(".")[2];
+        }
+        return {
+            eventType,
+            sender,
+            receiver,
+        }
+    },
+    dispatch: function ($store, actionname, message, status, callback) {
         $store.dispatch(actionname, message);
-        setTimeout(function () {
-            callback($store,status);
+        clearTimeout(this.outTimer);
+        this.outTimer = setTimeout(function () {
+            callback($store, status);
         }, 10000)
     },
     decode: function (payload) {
-        let load = payload.toString();
+        let load = payload;
         if (load) {
             return JSON.parse(load);
         }
@@ -35,6 +54,12 @@ const IOT = {
         }
         return load;
     },
+    toast: function (that, title) {
+        that.toast = true
+        that.warnTittle = title;
+        if (that.toastTimer) clearTimeout(that.toastTimer)
+        that.toastTimer = setTimeout(() => { that.toast = false }, 2000)
+    },
     uniqueObject: function (arr) {
         var v, r = [], o = {};
         for (var i = 0; (v = arr[i]) !== undefined; i++) {
@@ -43,7 +68,7 @@ const IOT = {
         return r;
     },
     sendCallToggle: function (IOT, message) {
-        IOT.socket.emit("publish", { topic: `yqmiot/${IOT.account}/27888/${IOT.nodeId}/call`, message: { "action": "yqmiot.event.toggle", "sender": IOT.nodeId, "name": message.name, "receiver": message.receiver, "value": message.val } });
+        IOT.socket.emit("publish", { topic: `yqmiot/${IOT.account}/1000/${IOT.nodeId}/call`, message: { "action": "yqmiot.event.toggle", "sender": IOT.nodeId, "name": message.name, "receiver": message.receiver, "value": message.val } });
     },
 
     buildAction: function (action, receiver, message) {

@@ -146,7 +146,4 @@ location /socket.io/ {
 ```bash
 服务器api告一段落。
 ```
-## vuex学习
-```bash
-state:单一状态树
-getters:
+
