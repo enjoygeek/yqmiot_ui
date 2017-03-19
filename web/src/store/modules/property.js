@@ -13,7 +13,7 @@ const actions = {
 }
 const mutations = {
     property({ commit }, payload) {
-        collection = payload;
+        console.log(payload);
     }
 }
 
