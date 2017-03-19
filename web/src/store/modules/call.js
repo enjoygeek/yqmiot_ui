@@ -1,7 +1,7 @@
 import * as types from '../mutation-types'
 import IOT from '../../api/client'
 const state = {
-    message:{},
+    message: 0,
 }
 
 const getters = {
@@ -9,13 +9,15 @@ const getters = {
 }
 
 const actions = {
-    event({ commit }, message){
-        
+    event({ commit }, message) {
+
     }
 }
 const mutations = {
-    call({ commit }, message){
-        state.message = message;
+    call({ commit }, message) {
+        // IOT.flag = true;
+        let types = IOT.decodeEvent(message);
+        
     }
 }
 
