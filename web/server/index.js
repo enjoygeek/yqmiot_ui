@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 var mqtt = require('mqtt');
-var mqttbroker = 'ws://test.mosquitto.org:8080';
+//iot.eclipse.org:80
+//test.mosquitto.org:8080
+var mqttbroker = 'ws://iot.eclipse.org:80/ws';
 var mqttclient = mqtt.connect(mqttbroker);
 
 var socket = require('socket.io');
