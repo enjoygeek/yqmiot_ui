@@ -8,7 +8,7 @@ import call from './modules/call'
 import ack from './modules/ack'
 import createWebSocketPlugin from './plugin'
 VUE.use(Vuex);
-IOT.init(1, 0);
+IOT.init(2, 5);
 IOT.socket.on("connect",function(){
     IOT.socket.emit('subscribe',{topic:"yqmiot/#"});
     IOT.socket.emit("publish",{topic:"yqmiot/"+IOT.account+"/2/"+IOT.nodeId+"/call",message:{"name":"property"}})
@@ -30,6 +30,6 @@ export default new Vuex.Store({
         ack
     },
     strict: debug,
-    // plugins: [plugin],
+    plugins: [plugin],
 })
 
