@@ -19,9 +19,15 @@ const mutations = {
         console.log(types);
         switch (types.eventType) {
             case "toggle":
-                    IOT.flag = true;
-                    clearTimeout(IOT.outTimer);
-                    IOT.toast(IOT.el,types.sender+"已执行");
+                console.log(IOT.action,types.action)
+                if(IOT.action == types.action){
+                    if(IOT.outTimer){
+                        clearTimeout(IOT.outTimer);//没有超时清除超时处理。
+                    }
+                    IOT.toast(types.sender+"已执行");
+                    IOT.el.disabled = false;
+                    IOT.action = null;
+                }
                 break;
             default:
                 break;

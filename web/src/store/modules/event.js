@@ -22,7 +22,7 @@ const mutations = {
         let types = IOT.decodeEvent(message);
         switch (types.eventType) {
             case "online":
-                IOT.toast(IOT.el,types.sender+"上线了");
+                IOT.toast(types.sender+"上线了");
                 console.log(types.sender + "上线");
                 break;
             default:

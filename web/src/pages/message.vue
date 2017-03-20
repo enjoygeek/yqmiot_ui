@@ -9,7 +9,7 @@
           <mu-list-item :value="$store.state.homeSwitch.homeSwitch[$route.params.index].receiver" :title="$store.state.homeSwitch.homeSwitch[this.$route.params.index].name">
             <mu-avatar :src="avatar1" slot="leftAvatar"/>
             <div slot="right" @click="changed">
-                 <mswitch size="20px" theme="blue" :checked="status"/>
+                 <mswitch size="20px" theme="blue" :disabled="disabled" :checked="status"/>
             </div>
           </mu-list-item>
         </mu-list>
@@ -23,6 +23,8 @@ import myron from '../assets/yqm.png';
 import avatar1 from '../assets/1.jpg';
 import IOT from '../api/client'
 import mySwitch from '../components/switch';
+import cmd from "../store/mutation-types";
+
 export default {
   name: 'index',
   created(){
@@ -34,25 +36,29 @@ export default {
       toggle: true,
       warnTittle: "",
       topic: null,
-      status: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].val,
-      name: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].name,
-      receiver:this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].receiver,
+      status: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].val,//通断的状态(true:通,false:断)
+      name: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].name,//器件的名字()
+      receiver:this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].id,//器件的id
       avatar1,
       st: "open",
-      toast: false,
+      toast: false,//开启通知标志
+      disabled: false,//命令可否执行标志
     }
   },
   methods: {
     changed(){
-        this.status = !this.status;
-        
+      if(!this.disabled){//双重验证是否真的按钮不可再点击。
+        this.disabled = true;//点击按钮,按钮不在接收点击。直到又返回值。或超时
+        this.status = !this.status;//按钮状态改变，给用户以提示，他已经单击，且需耐心等待。
         let message = {
-            name: this.name,
-            receiver: this.receiver,
-            val: this.status,
+            command: cmd.YQMIOT_EVNET_TOGGLE,//执行的命令
+            receiver: this.receiver,//信息接收方
+            val: this.status,//发送的属性信息(TODO)
         }
-        IOT.dispatch(this.$store,"toggle",message,this,IOT.deteckToogle);
+        IOT.dispatch(message,IOT.deteckAction);//message为发送的信息，callback回调函数
+      }
     },
+    //隐藏通知方法
     hideToast () {
       this.toast = false
       if (this.toastTimer) clearTimeout(this.toastTimer)
