@@ -1,8 +1,8 @@
 <template>
   <mu-list :value="value" @change="handleChange" >
   <mu-sub-header>开关类</mu-sub-header>
-    <div v-for="(item, index) in $store.state.homeSwitch.homeSwitch">
-      <mu-list-item :value="item.receiver+'/'+index" :title="item.name">
+    <div v-for="(item, index) in homeswitch">
+      <mu-list-item :value="item.id+'/'+index" :title="item.name">
         <mu-avatar :src="avatar1" slot="leftAvatar"/>
       </mu-list-item>
     </div>
@@ -13,6 +13,7 @@
 import avatar1 from '../assets/1.jpg';
 import avatar2 from '../assets/2.jpg';
 import avatar3 from '../assets/3.jpg';
+import IOT from "../api/client";
 export default {
   name: "list",
   data(){
@@ -20,6 +21,7 @@ export default {
       avatar1,
       avatar2,
       avatar3,
+      homeswitch: IOT.device.homeswitch,
       value: 1,
       events:false,
       collect: {},
