@@ -15,12 +15,11 @@ const actions = {
 }
 const mutations = {
     ack({ commit }, message){
-       let types = IOT.decodeEvent(message);
-        console.log(types);
+       let types = IOT.decodeEvent(message);//信息解码，方便处理
+       console.log(IOT.callseq,types.callseq);
         switch (types.eventType) {
             case "toggle":
-                console.log(IOT.action,types.action)
-                if(IOT.action == types.action){
+                if(IOT.action == types.action && IOT.callseq == types.callseq){
                     if(IOT.outTimer){
                         clearTimeout(IOT.outTimer);//没有超时清除超时处理。
                     }

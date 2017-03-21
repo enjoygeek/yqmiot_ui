@@ -20,9 +20,9 @@ const YQMIOT_PROPERTY_VERSION = "yqmiot.property.version" // 设备所属固件�
 // 系统方法
 const YQMIOT_METHOD_PING = "yqmiot.method.ping" // ping连通测试
 const YQMIOT_METHOD_TEST = "yqmiot.method.test" // 方法调用测试
+const YQMIOT_METHOD_TOGGLE = "yqmiot.method.toggle"
 
-
-//开关类方法
+//开关类事件
 const YQMIOT_EVNET_TOGGLE = "yqmiot.event.toggle"
 
 export default {
@@ -33,11 +33,12 @@ export default {
     YQMIOT_EVENT_ONLINE,
     YQMIOT_EVENT_OFFLINE,
     YQMIOT_EVENT_TEST,
+    YQMIOT_EVNET_TOGGLE,
     YQMIOT_PROPERTY_NODEID,
     YQMIOT_PROPERTY_ACCOUNTID,
     YQMIOT_PROPERTY_MODEL,
     YQMIOT_PROPERTY_VERSION,
     YQMIOT_METHOD_PING,
     YQMIOT_METHOD_TEST,
-    YQMIOT_EVNET_TOGGLE,
+    YQMIOT_METHOD_TOGGLE,
 }
