@@ -6,7 +6,7 @@
       </mu-appbar>
       <div id="list">
          <mu-list>
-          <mu-list-item :value="$store.state.homeSwitch.homeSwitch[$route.params.index].receiver" :title="$store.state.homeSwitch.homeSwitch[this.$route.params.index].name">
+          <mu-list-item :value="id" :title="name">
             <mu-avatar :src="avatar1" slot="leftAvatar"/>
             <div slot="right" @click="changed">
                  <mswitch size="20px" theme="blue" :disabled="disabled" :checked="status"/>
@@ -36,9 +36,9 @@ export default {
       toggle: true,
       warnTittle: "",
       topic: null,
-      status: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].val,//通断的状态(true:通,false:断)
-      name: this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].name,//器件的名字()
-      receiver:this.$store.state.homeSwitch.homeSwitch[this.$route.params.index].id,//器件的id
+      status: IOT.device.homeswitch[this.$route.params.index].val,//通断的状态(true:通,false:断)
+      name: IOT.device.homeswitch[this.$route.params.index].name,//器件的名字()
+      id:IOT.device.homeswitch[this.$route.params.index].id,//器件的id
       avatar1,
       st: "open",
       toast: false,//开启通知标志
@@ -50,12 +50,17 @@ export default {
       if(!this.disabled){//双重验证是否真的按钮不可再点击。
         this.disabled = true;//点击按钮,按钮不在接收点击。直到又返回值。或超时
         this.status = !this.status;//按钮状态改变，给用户以提示，他已经单击，且需耐心等待。
+        IOT.action = cmd.YQMIOT_METHOD_TOGGLE;
+        IOT.callseq = Math.random()*200;
         let message = {
-            command: cmd.YQMIOT_EVNET_TOGGLE,//执行的命令
-            receiver: this.receiver,//信息接收方
-            val: this.status,//发送的属性信息(TODO)
+            command: cmd.YQMIOT_METHOD_TOGGLE,//执行的命令
+            receiver: this.id,//信息接收方
+            params: {
+              "val":this.status,//发送的属性信息(TODO)
+            },
+            callseq: IOT.callseq,
         }
-        IOT.dispatch(message,IOT.deteckAction);//message为发送的信息，callback回调函数
+        IOT.dispatch(message).then(IOT.deteckAction);//message为发送的信息，callback回调函数
       }
     },
     //隐藏通知方法
