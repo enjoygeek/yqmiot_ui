@@ -2,7 +2,8 @@
 var mqtt = require('mqtt');
 //iot.eclipse.org:80
 //test.mosquitto.org:8080
-var mqttbroker = 'ws://iot.eclipse.org:80/ws';
+// ws://iot.eclipse.org:80/ws
+var mqttbroker = 'ws://yqmiot.com:8888';
 var mqttclient = mqtt.connect(mqttbroker);
 
 var socket = require('socket.io');
@@ -69,11 +70,11 @@ io.sockets.on('connection', function (socket) {
         }
 
         //Log MQTT messages being sent
-        DEBUG_LOG('SENT: ' + data.topic + " " + data.message);
+        DEBUG_LOG('SENT: ' + data.topic + " " + data.payload);
 
         //Publish MQTT message
         try {
-            mqttclient.publish(data.topic, JSON.stringify(data.message));
+            mqttclient.publish(data.topic, JSON.stringify(data.payload));
         }
         catch(err) {
             DEBUG_LOG('ERROR: ' + err, true);
