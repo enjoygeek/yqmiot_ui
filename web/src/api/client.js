@@ -12,6 +12,11 @@ const IOT = {
   flag: false,//判断超时标志
   el: null, //当前页面的this
   outTimer: null,//计时器
+  callseq: null, //回包序号
+  device: {
+    homeswitch: [ ],
+
+  },
   /**
    * 器件类型类定义;
    */
@@ -55,25 +60,31 @@ const IOT = {
    * 解码事件
    */
   decodeEvent: function (message) {
+    let topic = message.topic.split('/');
     let payload = this.decode(message.payload);
     let action = payload.action;
-    let sender = payload.sender;
-    let receiver = payload.receiver;
+    let sender = topic[3];
+    let receiver = topic[2];
     let eventType = "";
+    let params = payload.params;
+    let callseq = payload.callseq;
     if (action) {
       eventType = action.split(".")[2];
     }
+
     return {
       eventType,
       sender,
       receiver,
       action,
+      params,
+      callseq,
     }
   },
   /**
    * 数组去重(TODO)
    */
-  uniqueObject: function (arr) {
+  uniqueObject: function (arr, types) {
     var v, r = [], o = {};
     for (var i = 0; (v = arr[i]) !== undefined; i++) {
       !o[v] && (r.push(v), o[v] = true);
@@ -97,13 +108,32 @@ const IOT = {
   online: function () {
 
   },
-
+  shiftDevice: function (id, type) {
+    for (var item in IOT.device[type]) {
+      if (id == IOT.device[type][item].id) {
+        IOT.device[type].splice(item, 1);
+      }
+    }
+  },
+  updateProperty: function (id, type) {
+    for (var item in IOT.device[type]) {
+      if (id == IOT.device[type][item].id) {
+        return IOT.device[type][item];
+      }
+    }
+    return false;
+  },
   /**
    * 检测超时(作为回调函数使用)
    */
   deteckAction: function () {
-      IOT.el.$store.commit('timeout');
+    if (IOT.action && IOT.outTimer) {
+      IOT.el.status = !IOT.el.status;//超时，状态不改变，返回原状态。
+      IOT.toast("请求超时");//通知用户已经超时
+      clearTimeout(IOT.outTimer);//清除定时器。
+      IOT.el.disabled = false; //解除不可操作。使用户可以再次发送。
       IOT.action = null;
+    }
   },
   /**
    * 发送事件
@@ -117,7 +147,7 @@ const IOT = {
    * 交互格式
    * {
    *  topic: string,
-   *  message:{
+   *  payload:{
    *    action: string,事件的命令
    *    sender: string,发送者
    *    name: string,命令名称实际上是action的最后一部分。(TODO：商量换)
@@ -128,23 +158,23 @@ const IOT = {
    */
   sendCall: function (message) {
     let name = message.command.split('.')[2];
-    IOT.socket.emit("publish", { topic: `yqmiot/${IOT.account}/${message.receiver}/${IOT.nodeId}/call`, message: { "action": message.command, "sender": IOT.nodeId, "name": name, "receiver": message.receiver, "value": message.val } });
+    IOT.socket.emit("publish", { topic: `yqmiot/${IOT.account}/${message.receiver}/${IOT.nodeId}/call`, payload: { "action": message.command, "callseq": message.callseq, "params": message.params } });
   },
   /**
    * 分发给控制器
    */
-  dispatch: function (message, callback) {
-    IOT.action = message.command;//执行命令的完整版
-    console.log(IOT.action);
-    IOT.el.$store.dispatch(IOT.action, message);
-    if (IOT.outTimer) {
-      clearTimeout(IOT.outTimer);
-    }
-    IOT.outTimer = setTimeout(function () {
-      callback();
-    }, 10000)
+  dispatch: function (message) {
+    IOT.sendCall(message);
+    return new Promise((resolve, reject) => {
+      setTimeout(resolve, 10000);
+    });
+    // if (IOT.outTimer) {
+    //   clearTimeout(IOT.outTimer);
+    // }
+    // IOT.outTimer = setTimeout(function () {
+    //   callback();
+    // }, 10000)
   },
-
   /**
    * 客户端初始化
    */
