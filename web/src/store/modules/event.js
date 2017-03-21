@@ -25,6 +25,9 @@ const mutations = {
                 IOT.toast(types.sender+"上线了");
                 console.log(types.sender + "上线");
                 break;
+            case "offline":
+                IOT.toast(types.sender+"设备离线");
+                IOT.shiftDevice(types.sender,"homeswitch");
             default:
                 break;
         }
