@@ -1,51 +1,47 @@
 <template>
   <div class="wrap">
     <div class="index">
-      <mu-appbar title="月球猫互联" id="shadow">
-        <mu-avatar slot="left" :src="myron"/>
-      </mu-appbar>
-
+      <mheader></mheader>
       <div id="list">
-        <router-view></router-view>
-        <mu-toast v-if="toast" :message="warnTittle" @close="hideToast"/>
+        <transition name="fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
+        <mu-toast v-if="toast" :message="warnTittle" class=" toast" @close="hideToast"/>
       </div>
-
-      <mu-bottom-nav :value="bottomNav" shift @change="handleChange" id="footer">
-        <mu-bottom-nav-item value="list" title="设备" icon="ondemand_video"/>
-        <mu-bottom-nav-item value="music" title="设置" icon="music_note"/>
-      </mu-bottom-nav>
+      <mfooter></mfooter>
     </div>
   </div>
 </template>
 <script>
-import myron from '../assets/yqm.png';
 import IOT from '../api/client'
+import mheader from '../components/header'
+import mfooter from '../components/footer'
 export default {
   name: 'index',
   created(){
     IOT.el = this;
+    IOT.index = this;
   },
   data () {
     return {
-      myron,
-      bottomNav: 'list',
       events: false,
       topic: null,
       message: null,
       toast: false,
       warnTittle: "",
+      text: 'hello'
     }
   },
   methods: {
-    handleChange (val) {
-      this.bottomNav = val;
-      this.$router.push(`/${val}`);
-    },
     hideToast () {
       this.toast = false
       if (this.toastTimer) clearTimeout(this.toastTimer)
     }
   },
+  components:{
+    'mheader': mheader,
+    'mfooter': mfooter,
+  }
 }
 </script>
 
@@ -65,13 +61,6 @@ export default {
     left: 0px;
     right: 0px;
     background-color: rgba(0,0,0,0.25);
-      #shadow{
-        position:absolute;
-        top:0px;
-        left:0px;
-        height:8%;
-        box-sizing:border-box;
-      }
       #list{
         position:absolute;
         top:8%;
@@ -81,14 +70,16 @@ export default {
         overflow-y:scroll;
         -webkit-overflow-scrolling:touch;
         box-sizing:border-box;
+        .toast{
+          margin-bottom:18%;
+        }
       }
-      #footer{
-      position:absolute;
-      bottom: 0px;
-      left:0px;
-      height:8%;
-      box-sizing:border-box;
-    }
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
   }
 }
 </style>

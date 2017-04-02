@@ -1,0 +1,46 @@
+{
+  "name": "yqm-homekit2mqtt-backend",
+  "version": "0.0.1",
+  "description": "HomeKit to MQTT bridge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./app/index.js",
+    "lint": "eslint app/"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "author": "kira(https://github.com/phunsuke)",
+  "license": "MIT",
+  "keywords": [
+    "homekit",
+    "Siri",
+    "MQTT",
+    "Smart",
+    "Home",
+    "Internet",
+    "of",
+    "Things",
+    "IoT",
+    "mqtt-smarthome"
+  ],
+  "dependencies": {
+    "express": "^4.15.2",
+    "homebridge": "^0.4.16",
+    "mongoose": "^4.9.2",
+    "mqtt": "^2.5.0",
+    "say": "^0.11.0",
+    "yalm": "^4.0.2",
+    "yargs": "^7.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb-base": "^11.1.2",
+    "eslint-plugin-import": "^2.2.0",
+    "pre-commit": "^1.2.2"
+  }
+}

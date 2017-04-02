@@ -4,6 +4,8 @@
     <div v-for="(item, index) in homeswitch">
       <mu-list-item :value="item.id+'/'+index" :title="item.name">
         <mu-avatar :src="avatar1" slot="leftAvatar"/>
+        <sub v-if="item.val">最后状态[打开]</sub>
+        <sub v-else>最后状态[关闭]</sub>
       </mu-list-item>
     </div>
   </mu-list>

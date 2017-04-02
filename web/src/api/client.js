@@ -11,8 +11,10 @@ const IOT = {
   action: null,//判断是否已经执行过action
   flag: false,//判断超时标志
   el: null, //当前页面的this
+  index: null,
   outTimer: null,//计时器
   callseq: null, //回包序号
+  bttomNav: 'list',
   device: {
     homeswitch: [ ],
 
@@ -24,7 +26,7 @@ const IOT = {
   /**
   * 编码事件
   */
-  buildMessage: function (receiver, ) {
+  buildMessage: function (receiver) {
     return {
       action: ""
     }
@@ -96,7 +98,7 @@ const IOT = {
    * 执行通知消息
    */
   toast: function (title) {
-    IOT.el.toast = true
+    IOT.el.toast = true;
     IOT.el.warnTittle = title;
     if (IOT.el.toastTimer) clearTimeout(IOT.el.toastTimer)
     IOT.el.toastTimer = setTimeout(() => { IOT.el.toast = false }, 2000)
@@ -127,8 +129,9 @@ const IOT = {
    * 检测超时(作为回调函数使用)
    */
   deteckAction: function () {
+    console.log(IOT.action, IOT.outTimer);
     if (IOT.action && IOT.outTimer) {
-      IOT.el.status = !IOT.el.status;//超时，状态不改变，返回原状态。
+      // IOT.el.status = !IOT.el.status;//超时，状态不改变，返回原状态。
       IOT.toast("请求超时");//通知用户已经超时
       clearTimeout(IOT.outTimer);//清除定时器。
       IOT.el.disabled = false; //解除不可操作。使用户可以再次发送。
@@ -142,7 +145,7 @@ const IOT = {
    * {
    *  receiver: string,
    *  val: object,
-   *  command: string, 
+   *  command: string,
    * }
    * 交互格式
    * {
@@ -166,7 +169,7 @@ const IOT = {
   dispatch: function (message) {
     IOT.sendCall(message);
     return new Promise((resolve, reject) => {
-      setTimeout(resolve, 10000);
+      IOT.outTimer = setTimeout(resolve, 10000);
     });
     // if (IOT.outTimer) {
     //   clearTimeout(IOT.outTimer);

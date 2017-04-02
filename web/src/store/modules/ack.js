@@ -26,6 +26,7 @@ const mutations = {
                     IOT.toast(types.sender+"已执行");
                     IOT.el.disabled = false;
                     IOT.action = null;
+                    IOT.callseq = null;
                 }
                 break;
             default:
